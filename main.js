@@ -1,3 +1,4 @@
+import { wireConsole } from './game-menu.js';
 import * as THREE from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -9,7 +10,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 root.prepend(renderer.domElement);
-renderer.domElement.setAttribute('aria-label', 'Game Boy. Drag to rotate.');
+renderer.domElement.setAttribute('aria-label', 'Game Boy. Click OFF-ON or press P for power. Use the D-pad or arrow keys to select a game. Drag to rotate.');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -73,6 +74,7 @@ async function load() {
   model.scale.setScalar(scale);
   model.position.copy(box.getCenter(new THREE.Vector3())).multiplyScalar(-scale);
   scene.add(model,shadow);
+  wireConsole(model,renderer,camera,render,document.querySelector('#console-state'));
   status.remove();
   render();
 }
