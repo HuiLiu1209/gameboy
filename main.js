@@ -10,7 +10,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 root.prepend(renderer.domElement);
-renderer.domElement.setAttribute('aria-label', 'Game Boy. Click OFF-ON or press P for power. Use the D-pad or arrow keys to select a game. Drag to rotate.');
+renderer.domElement.setAttribute('aria-label', 'Game Boy. Click OFF-ON or press P for power. Use the D-pad or arrow keys to select a game. Use WASD or arrows to move. A, Z or Space for action. Start or Enter pauses. B or Escape returns. Drag to rotate.');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -74,6 +74,8 @@ async function load() {
   model.scale.setScalar(scale);
   model.position.copy(box.getCenter(new THREE.Vector3())).multiplyScalar(-scale);
   scene.add(model,shadow);
+  const lcdFont = new FontFace('Press Start 2P','url(/fonts/PressStart2P-Regular.ttf)');
+  document.fonts.add(await lcdFont.load());
   wireConsole(model,renderer,camera,render,document.querySelector('#console-state'));
   status.remove();
   render();
